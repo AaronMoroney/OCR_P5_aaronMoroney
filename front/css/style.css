@@ -128,11 +128,11 @@ main {
 .items {
 	margin-bottom: 135px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	flex-wrap: wrap;
 }
 .items a {
-	width: 21%;
+	width: 22.2%;
 	text-decoration: none;
 	color: unset;
 }
@@ -148,6 +148,7 @@ main {
 	padding-top: 25px;
 	width: 100%;
 	border-radius: 10px;
+	height: 350px
 }
 .items article img {
 	width: 160px;
@@ -264,5 +265,9 @@ footer .footerSecondary {
 	}
 	.items a {
 		width: 75%;
+	}
+
+	.items {
+		justify-content: center;
 	}
 }
