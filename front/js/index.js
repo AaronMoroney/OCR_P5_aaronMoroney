@@ -1,15 +1,17 @@
+
+/*
+** index page (all products)
+*/
+
 const uri = 'http://localhost:3000/api/products/';
-let pageLink = "./product.html?";
-
-
-
+const singleProductLink = './productFront.html?=';
 
 
 
 fetch(uri) 
     .then((response) => response.json())
     .then((data) => {
-        console.log(data); // works without console.log, good for access
+        console.log(data); // works without console.log, good for access however
         createProductCardsInfo(data);
 });
     
@@ -27,23 +29,24 @@ function createProductCardView(object) {
     let article = document.createElement('article');
 
     //DOM creation of product descriptors + link
-    const productName = document.createElement('h3');
-    const productDescription = document.createElement('p');
-    const img = document.createElement('img');
+    let productName = document.createElement('h3');
+    let productDescription = document.createElement('p');
+    let img = document.createElement('img');
     
-    const pageLink = document.createElement('a');
+    let pageLink = document.createElement('a');
    
-
     //populate
     productName.innerText = object.name;
     productDescription.innerText= object.description;
+    
     img.src= object.imageUrl; // previous img method was causing bug - wouldn't fetch
-    pageLink.href = (`${pageLink} ${object._id}`);
+    
+    pageLink.href = `${singleProductLink} ${object._id}`;  // need to edit this
+    
+    //append created product description parent to link parent - 
 
-    //append created product parent to section parent - id=items
-    items.appendChild(pageLink);
-    pageLink.appendChild(article);
-
+    items.appendChild(pageLink); //link  to parent
+    pageLink.appendChild(article); //product description parent to link
 
     //append product descriptors to article ( in order )
     article.appendChild(img);
@@ -67,24 +70,10 @@ function createProductCardView(object) {
 
 
 
-//------------------------------------
 
-/* faizal way
 
-let products = [];
 
-fetch(uri) done
-.then((response) => response.json()) done
-.then((data) => { done
-     //console.log(data); done
-     products = data; done
-     //populate the DOM 
-     //loop on the map, for each item, create a text html and populate the data, add to the parent element
-    var name = `${products}regertgegb`;
-});
-*/
 
-//------------------------------------
 
 
 
