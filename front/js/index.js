@@ -18,7 +18,7 @@ fetch(uri)
 
 function createProductCardsInfo(array) {
     const length = array.length;
-    for (let i=0; i<length; i++) {
+    for (let i = 0; i<length; i++) {
         createProductCardView(array[i]);
     }
 }
