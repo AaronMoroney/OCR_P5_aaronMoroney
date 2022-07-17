@@ -2,10 +2,6 @@
 ** single product page
 */
 
-
-
-
-
 //get _id of product from query parameters
 const queryString = window.location.search;
 let splitForId = queryString.slice(5);
@@ -89,39 +85,34 @@ when you add the exact same product, increase the quantity
 */
 
 
-//check, if product is already in array using if / else
-
-
-function cartButtonPush(data) {
-  //get access to button + quantity + options
-  
-  
-
-    
-
-    
-}
-
-  //console.log(localStorage.getItem('productChoice')); 
+//console.log(localStorage.getItem('productChoice')); 
 var button = document.getElementById('addToCart');  //console.log(button); working
 button.addEventListener('click', () => { 
     var option = document.getElementById('colorsParent').value;
     var quantity = document.getElementById('quantity').value; 
-    var cart = {_id: product, color: option, quantity: quantity };
-    console.log(cart); //undefined option and quantity
-    let shoppingCart = localStorage.getItem('cart') || []; //
-    //console.log(localStorage.setItem('cart', JSON.stringify(cart))); //push to something that isnt
-    shoppingCart.push(cart);
-    console.log(shoppingCart);
-    console.log(product._id);
+    var interestedProduct = [{_id: product._id, color: option, quantity: parseInt(quantity), name: product.name, description: product.description, image: product.imageUrl, price: product.price, altText: product.altText}];
+    console.log(interestedProduct); //array
+    addToShoppingCart(interestedProduct); //selected item
 });
 
+function addToShoppingCart (interestedProduct) {
+  let productStorage = localStorage.getItem('cart') || [];
+  //console.log(productStorage);
+  //get a list of selected products from the shopping cart, using product data + interestedProduct
+  let foundProduct = interestedProduct.filter((forID) => forID._id == product._id);
+  // quantity
+  foundProduct.quantity = parseInt(interestedProduct[0].quantity);
+  console.log('found:', foundProduct); // returns found product 
+  //console.log('products', interestedProduct);
+  //if list is empty add right away to shopping cart. return
 
+
+  //array filter, filter. Pass conditon if - (color === color) && (product._id === product._id) && (same for )
+
+  //check if new list empty it didnt find, add right away
+
+  //if found, find one list - read quantity 
+
+  //store back to shopping cart, using sessionStorage
   
-
-
-      //push select data + quantity data
-    /*if (data._id === data._id && data.option === data.option) {
-       console.log(data.quantity++);
-    };
-    */
+}
