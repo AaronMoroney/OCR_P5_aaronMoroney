@@ -88,7 +88,14 @@ when you add the exact same product, increase the quantity
 //console.log(localStorage.getItem('productChoice')); 
 var button = document.getElementById('addToCart');  //console.log(button); working
 button.addEventListener('click', () => { 
+    
     var option = document.getElementById('colorsParent').value;
+    var option = document.getElementById('colorsParent').value;
+    //if color is unselected alert user
+    if (option == '') {
+    alert('please select an item color choice from the dropdown menu');
+    }
+    //if value of selector is 0, throw error message
     var quantity = document.getElementById('quantity').value; 
     var interestedProduct = [{_id: product._id, color: option, quantity: parseInt(quantity), name: product.name, description: product.description, image: product.imageUrl, price: product.price, altText: product.altText}];
     console.log(interestedProduct); //array
@@ -96,23 +103,25 @@ button.addEventListener('click', () => {
 });
 
 function addToShoppingCart (interestedProduct) {
-  let productStorage = localStorage.getItem('cart') || [];
-  //console.log(productStorage);
+  let cart = JSON.parse(localStorage.getItem('scart')) || [];
   //get a list of selected products from the shopping cart, using product data + interestedProduct
-  let foundProduct = interestedProduct.filter((forID) => forID._id == product._id);
-  // quantity
-  foundProduct.quantity = parseInt(interestedProduct[0].quantity);
-  console.log('found:', foundProduct); // returns found product 
-  //console.log('products', interestedProduct);
-  //if list is empty add right away to shopping cart. return
+  var foundProduct = cart.filter((item) => item._id == interestedProduct._id && item.color == interestedProduct.color) ;
+  //foundProduct[0].quantity = interestedProduct[0].quantity;
+  console.log(foundProduct);
+  //if list is empty, immediately push selection to shopping cart. 
+  if (foundProduct.length == 0) { //should use length
+    cart.push(interestedProduct);
+    console.log('scart:', cart); //working perfectly
+    //store object in local storage
+    localStorage.setItem('scart', JSON.stringify(cart));
+    } else  {
+      console.log(cart);
+      foundProduct[0].quantity = interestedProduct.quantity + foundProduct[0].quantity;
+      console.log(foundProduct[0]);
+      cart.push(interestedProduct);
+      //re-store data in local storage
+      localStorage.setItem('scart', JSON.stringify(cart));
+    }
+  }
 
 
-  //array filter, filter. Pass conditon if - (color === color) && (product._id === product._id) && (same for )
-
-  //check if new list empty it didnt find, add right away
-
-  //if found, find one list - read quantity 
-
-  //store back to shopping cart, using sessionStorage
-  
-}
