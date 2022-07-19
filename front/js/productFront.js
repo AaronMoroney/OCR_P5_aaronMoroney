@@ -20,9 +20,6 @@ fetch(newUri)
         product = data;
 }); //gives back an individual object
 
-// dont need iterate over object to get keys / values -
-// already have in the console
-
 
 //populate data, image ,description, price using keys/values
 function createIndividualProductView(data) {
@@ -90,14 +87,13 @@ var button = document.getElementById('addToCart');  //console.log(button); worki
 button.addEventListener('click', () => { 
     
     var option = document.getElementById('colorsParent').value;
-    var option = document.getElementById('colorsParent').value;
     //if color is unselected alert user
     if (option == '') {
     alert('please select an item color choice from the dropdown menu');
     }
     //if value of selector is 0, throw error message
     var quantity = document.getElementById('quantity').value; 
-    var interestedProduct = [{_id: product._id, color: option, quantity: parseInt(quantity), name: product.name, description: product.description, image: product.imageUrl, price: product.price, altText: product.altText}];
+    var interestedProduct = {_id: product._id, color: option, quantity: parseInt(quantity), name: product.name, description: product.description, image: product.imageUrl, price: product.price, altText: product.altText};
     console.log(interestedProduct); //array
     addToShoppingCart(interestedProduct); //selected item
 });
@@ -106,7 +102,6 @@ function addToShoppingCart (interestedProduct) {
   let cart = JSON.parse(localStorage.getItem('scart')) || [];
   //get a list of selected products from the shopping cart, using product data + interestedProduct
   var foundProduct = cart.filter((item) => item._id == interestedProduct._id && item.color == interestedProduct.color) ;
-  //foundProduct[0].quantity = interestedProduct[0].quantity;
   console.log(foundProduct);
   //if list is empty, immediately push selection to shopping cart. 
   if (foundProduct.length == 0) { //should use length
@@ -121,7 +116,19 @@ function addToShoppingCart (interestedProduct) {
       cart.push(interestedProduct);
       //re-store data in local storage
       localStorage.setItem('scart', JSON.stringify(cart));
+      console.log(cart)
     }
   }
+
+
+/*
+** | Faizal notes, dont code on top of something you don't understand 
+** | don't over engineer the code, keep it as simple as possible 
+** | First, understand the logic functionality of the app in english
+** | then, ap[ply it in pseudo code
+** | then, code
+** | don't waste time, coding at random, debugging -
+** | things that shouldn't be there in the first place 
+*/
 
 
