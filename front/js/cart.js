@@ -50,66 +50,90 @@ for (let i = 0; i < cartLenght; i++) {
 use the cart to populate any neccessary
 elements on the cart page 
 */
+/*
+<!--  <article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
+
+  
 
 
+ 
+
+   
+  </div>
+</div>
 // <p>Qté : </p>
 //<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42"></input>
+*/
 function populateCartInfo(cart) {
-    //access dom elements 
-    let cartItemsParent = document.getElementById('cart__items');
-    //create dom elements (parents) 
-    let article = document.createElement('article');
+    //get access
+    let section = document.getElementById('cart__items');
+    //create dom elements in order
+    //parent
+    let article = document.createElement('div');
     article.setAttribute('class', 'cart__item');
-    cartItemsParent.appendChild(article);
-
+    section.appendChild(article);
+    //image
     let cartItemImgP = document.createElement('div');
     cartItemImgP.setAttribute('class', 'cart__item__img');
     article.appendChild(cartItemImgP);
 
-    let cartItemContentP = document.createElement('div');
-    cartItemContentP.setAttribute('class', 'cart__item__content');
-    article.appendChild(cartItemContentP);
-
-    let cartItemContentSettingsP = document.createElement('div');
-    cartItemContentSettingsP.setAttribute('class', 'cart__item__content__settings');
-    cartItemContentP.appendChild(cartItemContentSettingsP);
-    //get accerss to dom elements (Children)
-    let cartItemContentDescriptionP  = document.createElement('div');
-    cartItemContentDescriptionP .setAttribute("class", "cart__item__content__description");
-    cartItemContentP.appendChild(cartItemContentDescriptionP);
-
-    let cartItemContentSettingsQuantityP  = document.createElement('div');
-    cartItemContentSettingsQuantityP.setAttribute('class', 'cart__item__content__settings');
-    cartItemContentP.appendChild(cartItemContentSettingsP);
-
-    let cartItemContentSettingsDeleteP  = document.createElement('div');
-    cartItemContentSettingsQuantityP.setAttribute('class', 'cart__item__content__settings__delete');
-    cartItemContentSettingsP.appendChild(cartItemContentSettingsQuantityP);
-    //get accerss to dom elements (Grandchildren)
-    //<h2>Name of the product</h2>
+    let img = document.createElement('img');
+    img.setAttribute('class:','img' );
+    cartItemImgP.appendChild(img);
+    //contentParent
+    let contentP = document.createElement('div');
+    contentP.setAttribute('class', 'cart__item__content');
+    article.appendChild(contentP);
+    //description Parent
+    let contentDescriptionP  = document.createElement('div');
+    contentDescriptionP .setAttribute("class", "cart__item__content__description");
+    contentP.appendChild(contentDescriptionP);
+    //productName
     let nameOfProduct = document.createElement('h2');
     nameOfProduct.setAttribute('class', 'product__name');
-    cartItemContentDescriptionP.appendChild(nameOfProduct);
-
+    contentDescriptionP.appendChild(nameOfProduct);
+    //color
     let color = document.createElement('p');
     color.setAttribute('class', 'item__color');
-    cartItemContentDescriptionP.appendChild(color);
-    //<p>€42.00</p>
-
+    contentDescriptionP.appendChild(color);
+    //price
     let price = document.createElement('p');
     price.setAttribute('class', 'item__price');
-    cartItemContentDescriptionP.appendChild(price);
-
-    //<p class="deleteItem">Delete</p>
+    contentDescriptionP.appendChild(price);
+    //settingsParent
+    let contentSettingsP = document.createElement('div');
+    contentSettingsP.setAttribute('class', 'cart__item__content__settings');
+    contentP.appendChild(contentSettingsP);
+    //quantity Parent
+    let contentSettingsQuantityP  = document.createElement('div');
+    contentSettingsQuantityP.setAttribute('class', 'cart__item__content__settings__quantity');
+    contentSettingsP.appendChild(contentSettingsQuantityP);
+    //quantity
+    let chosenQ = document.createElement('p');
+    chosenQ.setAttribute('class', 'chosenQ');
+    contentSettingsQuantityP.appendChild(chosenQ);
+    //quantity Input
+    let itemQuantity = document.createElement('input');
+    itemQuantity.setAttribute('type', 'itemQuantity');
+    contentSettingsQuantityP.appendChild(itemQuantity);
+    //deleteParent
+    let contentSettingsDeleteP  = document.createElement('div');
+    contentSettingsDeleteP.setAttribute('class', 'cart__item__content__settings__delete');
+    contentSettingsP.appendChild( contentSettingsDeleteP);
+    //delete
     let deleteItem = document.createElement('p');
-    deleteItem.setAttribute('class', 'delete__item');
-    cartItemContentSettingsDeleteP.appendChild(deleteItem);
+    deleteItem.setAttribute('class', 'deleteItem');
+    contentSettingsDeleteP.appendChild(deleteItem);
+
     //populate 
+    img.src= cart.image;
     nameOfProduct.innerText = cart.name;
     color.innerText = cart.color;
-    price.innerText = cart.price;
-    cartItemImgP.src = cart.imageUrl;
-
+    price.innerText = '€' + cart.price;
+    chosenQ.innerText = 'quantity :' 
+    itemQuantity.value = cart.quantity; 
+    deleteItem.innerText = 'Delete';
+    
     return populateCartInfo;
 }
 
