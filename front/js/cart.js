@@ -2,20 +2,7 @@
 ** Cart Page 
 */
 
-/* from OpenClassRooms
---------------------
-Recommendations(1): Display a recap which displays all previously added articles
---------------------
-● From the cart page you should collect the cart (the array) via LocalStorage.
-● Have a look at the array.
-● Create and insert the elements on the cart page.
---------------------
-Issues to be aware of:
---------------------
-Make sure you don’t create any duplicates of the various elements -
-in the recap table (the cart). If there are several identical products -
-(same ID + same colour) they should be listed on the same row in the table.
-
+/*
 --------
 logic(1): MY POV
 --------
@@ -31,6 +18,8 @@ add up all line price = total price
 Add! function to change option / quantity
 */
 
+
+
 //get access to the data stored in local storage
 let cart = JSON.parse(localStorage.getItem('scart'));
 
@@ -45,24 +34,9 @@ for (let i = 0; i < cartLenght; i++) {
     populateCartInfo(cart[i]);
 }
 
-
 /*
 use the cart to populate any neccessary
 elements on the cart page 
-*/
-/*
-<!--  <article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
-
-  
-
-
- 
-
-   
-  </div>
-</div>
-// <p>Qté : </p>
-//<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42"></input>
 */
 function populateCartInfo(cart) {
     //get access
@@ -114,7 +88,12 @@ function populateCartInfo(cart) {
     contentSettingsQuantityP.appendChild(chosenQ);
     //quantity Input
     let itemQuantity = document.createElement('input');
-    itemQuantity.setAttribute('type', 'itemQuantity');
+    itemQuantity.setAttribute('type', 'number');
+    itemQuantity.setAttribute('id', 'itemQuantity');
+    itemQuantity.setAttribute('name', 'itemQuantity');
+    itemQuantity.setAttribute('min', '1');
+    itemQuantity.setAttribute('max', '100');
+    itemQuantity.setAttribute('value', '');
     contentSettingsQuantityP.appendChild(itemQuantity);
     //deleteParent
     let contentSettingsDeleteP  = document.createElement('div');
@@ -133,16 +112,65 @@ function populateCartInfo(cart) {
     chosenQ.innerText = 'quantity :' 
     itemQuantity.value = cart.quantity; 
     deleteItem.innerText = 'Delete';
-    
+
+    localStorage.setItem('scart', cart);
+
     return populateCartInfo;
 }
 
-//remove button functionality logic
 
 
+/*
 
+// from OpenClassRooms
+--------------------
+Recommendations: dealing with any modifications or 
+removals of products on the cart page 
+--------------------
 
+● Furthermore, the Element.closest() method should allow you to target the -
+product you want to delete (or modify the quantity) thanks to its ID and its color.
 
+Make sure you modify both the DOM and LocalStorage, 
+if you forget the latter then modifications made in the cart will 
+not be saved when a user moves to a different web page or refreshes the page.
+*/
+
+/*
+** quantity **
+
+use the addEventListener, change event to -
+access the neccesary dom elements, and their values
+check for changes to quantity + add to existing cart
+put into storage 
+
+*/
+
+//access the neccesary dom elements
+let input = document.getElementById('itemQuantity');
+//use the addEventListener, change event to - check for changes to quantity
+input.addEventListener('input', updateValue);
+function updateValue(event) {
+    console.log(event.target.value);
+    //check for changes to quantity input + add to existing cart
+    cart[0].quantity = event.target.value;
+    //check
+    console.log(cart);
+    //store back in local storage
+    localStorage.setItem('scart', cart);
+}
+
+/*
+** delete **
+
+access dom elements,
+add event listener on click, (delete)
+if (id && color are the same)
+Element.closest(css selector)
+clear storarage
+on button 'commander' button - click, run the function
+_________
+*/
 
 
 
@@ -181,20 +209,13 @@ function populateCartInfo(cart) {
 
 
 /*
---------------------
-Recommendations: dealing with any modifications or 
-removals of products on the cart page 
---------------------
-
-● As regards modifications, you will have to use change event -
-(addEventListener, change event) to enable changes in quantities of product.
-● Furthermore, the Element.closest() method should allow you to target the -
-product you want to delete (or modify the quantity) thanks to its ID and its color.
-
-Make sure you modify both the DOM and LocalStorage, 
-if you forget the latter then modifications made in the cart will 
-not be saved when a user moves to a different web page or refreshes the page.
-
+** | Faizal notes, dont code on top of something you don't understand 
+** | don't over engineer the code, keep it as simple as possible 
+** | First, understand the logic functionality of the app in english
+** | then, ap[ply it in pseudo code
+** | then, code
+** | don't waste time, coding at random, debugging -
+** | things that shouldn't be there in the first
 */
 
 

@@ -20,6 +20,9 @@ fetch(newUri)
         product = data;
 }); //gives back an individual object
 
+// dont need iterate over object to get keys / values -
+// already have in the console
+
 
 //populate data, image ,description, price using keys/values
 function createIndividualProductView(data) {
@@ -81,27 +84,30 @@ when you add a product to the cart, add a new element to the array
 when you add the exact same product, increase the quantity 
 */
 
-
-//console.log(localStorage.getItem('productChoice')); 
 var button = document.getElementById('addToCart');  //console.log(button); working
 button.addEventListener('click', () => { 
-    
-    var option = document.getElementById('colorsParent').value;
-    //if color is unselected alert user
-    if (option == '') {
+  var option = document.getElementById('colorsParent').value;
+  //if color is unselected alert user
+  if (option == '') {
     alert('please select an item color choice from the dropdown menu');
-    }
-    //if value of selector is 0, throw error message
-    var quantity = document.getElementById('quantity').value; 
-    var interestedProduct = {_id: product._id, color: option, quantity: parseInt(quantity), name: product.name, description: product.description, image: product.imageUrl, price: product.price, altText: product.altText};
-    console.log(interestedProduct); //array
-    addToShoppingCart(interestedProduct); //selected item
+    return;
+  }
+  //if value of selector is 0, throw error message
+  var quantity = document.getElementById('quantity').value; 
+  var interestedProduct = {_id: product._id, color: option, quantity: parseInt(quantity), name: product.name, description: product.description, image: product.imageUrl, price: product.price, altText: product.altText};
+  if (quantity == 0) {
+    alert('please select a value');
+    return; 
+  }
+  console.log(interestedProduct); //array
+  //call function
+  addToShoppingCart(interestedProduct); 
 });
 
 function addToShoppingCart (interestedProduct) {
   let cart = JSON.parse(localStorage.getItem('scart')) || [];
   //get a list of selected products from the shopping cart, using product data + interestedProduct
-  var foundProduct = cart.filter((item) => item._id == interestedProduct._id && item.color == interestedProduct.color) ;
+  var foundProduct = cart.filter((item) => item._id == interestedProduct._id && item.color == interestedProduct.color);
   console.log(foundProduct);
   //if list is empty, immediately push selection to shopping cart. 
   if (foundProduct.length == 0) { //should use length
@@ -109,17 +115,15 @@ function addToShoppingCart (interestedProduct) {
     console.log('scart:', cart); //working perfectly
     //store object in local storage
     localStorage.setItem('scart', JSON.stringify(cart));
-    } else  {
-      console.log(cart);
-      foundProduct[0].quantity = interestedProduct.quantity + foundProduct[0].quantity;
-      console.log(foundProduct[0]);
-      cart.push(interestedProduct);
-      //re-store data in local storage
-      localStorage.setItem('scart', JSON.stringify(cart));
-      console.log(cart)
-    }
+  } else {
+    foundProduct[0].quantity = interestedProduct.quantity + foundProduct[0].quantity;
+    console.log(foundProduct[0]);
+    //cart.push(interestedProduct);
+    console.log(cart);
+    //re-store data in local storage
+    localStorage.setItem('scart', JSON.stringify(cart));
   }
-
+}
 
 /*
 ** | Faizal notes, dont code on top of something you don't understand 
@@ -128,7 +132,8 @@ function addToShoppingCart (interestedProduct) {
 ** | then, ap[ply it in pseudo code
 ** | then, code
 ** | don't waste time, coding at random, debugging -
-** | things that shouldn't be there in the first place 
+** | things that shouldny
 */
+
 
 
