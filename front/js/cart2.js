@@ -1,6 +1,6 @@
 
 let cart = JSON.parse(localStorage.getItem('scart')) || [];
-/*
+
 //turn into workable data
 console.log('cart:', cart);
 //loop through the data to get access to it
@@ -14,7 +14,7 @@ for (let i = 0; i < cart.length; i++) {
     updateQuantityCartItem ();
     updateCartTotal ()
 }
-*/
+
 
 /*
 function populateCartInfo(cart) {
