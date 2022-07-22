@@ -121,7 +121,7 @@ function addToShoppingCart (interestedProduct) {
     //cart.push(interestedProduct);
     console.log(cart);
     //re-store data in local storage
-    localStorage.setItem('scart', JSON.stringify(cart));
+    localStorage.setItem('scart', JSON.stringify (cart));
   }
 }
 
