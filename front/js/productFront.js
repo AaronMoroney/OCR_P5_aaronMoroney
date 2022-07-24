@@ -4,6 +4,7 @@
 
 //get _id of product from query parameters
 const queryString = window.location.search;
+console.log(queryString);
 let splitForId = queryString.slice(5);
 console.log(splitForId);
 

@@ -1,6 +1,4 @@
-
 let cart = JSON.parse(localStorage.getItem('scart')) || [];
-
 //turn into workable data
 console.log('cart:', cart);
 //loop through the data to get access to it
@@ -19,12 +17,9 @@ updateQuantityCartItem ();
 updateCartTotal ();
 captureFormData ();
 
-
 /*
 ** use looped cart above to push data into DOM node
 */
-
-
 
 function populateCartInfo(cart) {
     //get access
@@ -95,7 +90,6 @@ function populateCartInfo(cart) {
     deleteItem.setAttribute('class', 'deleteItem');
     contentSettingsDeleteP.appendChild(deleteItem);
     
-  
     //populate 
     img.src= cart.image;
     nameOfProduct.innerText = cart.name;
@@ -105,15 +99,12 @@ function populateCartInfo(cart) {
     itemQuantity.value = cart.quantity; 
     deleteItem.innerText = 'Delete';
    
-    
     return populateCartInfo;
 }
 
 /*
 ** updata cart quantity (specific item)
 */
-
-
 
 function updateCartTotal () {
     //totals
@@ -172,8 +163,6 @@ function updateCartTotal () {
 // !! problem with findIndex? !!
 //!! specififcity of the click !!
 
-
-
 function deleteCartItem () {
 //access dom elements,
     let removeCartItemButtons = document.getElementsByClassName('deleteItem');
@@ -204,14 +193,12 @@ function deleteCartItem () {
     return deleteCartItem;
 }
 
-
 /*
 ** quantity functionality
 */
 
 //!! problem with the specificity of updated QTY's !!
 //!! test !!
-
 
 function updateQuantityCartItem () {
     //get access to dom elements
@@ -237,8 +224,6 @@ function updateQuantityCartItem () {
 /*
 ** capture form data and call post request function
 */
-
-
 
 function captureFormData () {
     //access dom
@@ -278,19 +263,18 @@ function captureFormData () {
 
 
 
+
 //for post req
 
-//returns the querystring part of a URL, 
-//-including the question mark
-const queryString = window.location.search;
-console.log(queryString);
-//The URLSearchParams interface defines utility methods to work 
-//-with the query string of a URL
-const urlParams = new URLSearchParams(queryString);
-console.log(urlParams);
-const orderId = urlParams.get(queryString);
+
+
 
 const postRequest = () => {
+    const queryString = window.location.search;
+    console.log(queryString);
+    const urlParams = new URLSearchParams(queryString);
+    console.log(urlParams);
+    //const orderId = urlParams.get(queryString);
     //send data
     let options = {
     method: 'POST',
@@ -313,13 +297,8 @@ const postRequest = () => {
     console.log(response);
 
     console.log(window.location.origin); //
-
-    //window.location.href = response.url + 'confirmation.html?orderId=' + response.orderId;
-    //window.location.href = response.url + 'confirmation.html?=' + response.orderId;
-    window.location.href = window.location.origin + "/front/html/confirmation.html?orderId=" +response.orderId;
-
+    window.location.href = window.location.origin + '/front/html/confirmation.html?=' + response.orderId;
     //push order id into url
-        
     }).catch(e => {
     console.log(e);
     })
