@@ -8,15 +8,24 @@ for (let i = 0; i < cart.length; i++) {
     populateCartInfo(cart[i]);
     var loopResult = (cart[i]);
     console.log('loopResult', loopResult);
-
     //call functions, in an on load function async??
-    deleteCartItem();
-    updateQuantityCartItem ();
-    updateCartTotal ()
 }
+
+//need to call functions here instead of above -
+//or else they repeat
+
+deleteCartItem();
+updateQuantityCartItem ();
+updateCartTotal ();
+captureFormData ();
 
 
 /*
+** use looped cart above to push data into DOM node
+*/
+
+
+
 function populateCartInfo(cart) {
     //get access
     let section = document.getElementById('cart__items');
@@ -85,12 +94,8 @@ function populateCartInfo(cart) {
     let deleteItem = document.createElement('p');
     deleteItem.setAttribute('class', 'deleteItem');
     contentSettingsDeleteP.appendChild(deleteItem);
-    //totals
-    let cartPrice = document.getElementsByClassName('cart__price');
-    //access + populate dynamically using result of below function - 
-    //updateCartTotal
-    let totalQuantity = document.getElementById('totalQuantity'); //span, inner html
-    let totalPrice = document.getElementById('totalPrice');
+    
+  
     //populate 
     img.src= cart.image;
     nameOfProduct.innerText = cart.name;
@@ -99,23 +104,75 @@ function populateCartInfo(cart) {
     chosenQ.innerText = 'quantity :' 
     itemQuantity.value = cart.quantity; 
     deleteItem.innerText = 'Delete';
+   
     
     return populateCartInfo;
 }
+
+/*
+** updata cart quantity (specific item)
 */
 
 
 
+function updateCartTotal () {
+    //totals
+    //only need 1, class returns an array of hmtl so, [0]
+    let cartPrice = document.getElementsByClassName('cart__price')[0];
+    //access + populate dynamically using result  
+    //updateCartTotal
+    let totalQuantity = document.getElementById('totalQuantity'); //span, inner html
+    let totalPrice = document.getElementById('totalPrice');
+    //empty arrays
+    let priceResultStorage = [];
+    let totalItemPriceStorage = [];
+    let quantityResultStorage = [];
+    
+    let initialPriceResult = 0;
+    let initialQuantity = 0;
+    //need to loop over cart  prices 
+    for(var i = 0; i < cart.length; i++) {
+        //itemPrice
+        let itemPrice = cart[i].price;
+        priceResultStorage.push(itemPrice);
+
+        //totalItemPrice
+        let totalItemPrice = cart[i].quantity * itemPrice;
+        totalItemPriceStorage.push(totalItemPrice);
+        //is this result an error??
+        //console.log(totalItemPriceStorage);
+
+        //quantity
+        let quantityResult = cart[i].quantity;
+        //console.log(quantityResult);
+
+        quantityResultStorage.push(quantityResult);
+        //console.log(quantityResultStorage);
+    }
+    //total price
+    for(var i = 0; i < totalItemPriceStorage.length; i++) {
+        let result = initialPriceResult += parseInt(totalItemPriceStorage[i]);
+        //console.log(result);
+        totalPrice.innerText = ' ' + result;
+    }
+    //quantity
+    for(var i = 0; i < quantityResultStorage.length; i++) {
+        let quantityResultLoop = initialQuantity += quantityResultStorage[i];
+        totalQuantity.innerText = quantityResultLoop;
+        //console.log(quantityResultLoop);
+    }
+    localStorage.setItem('scart', JSON.stringify(cart));  
+}
 
 /*
 ** delete functionality
 */
 
-//not deleting from localstroage correctly
-//problem with findIndex?
-//specififcity of the click
+// !! not deleting from localstroage correctly !!
+// !! problem with findIndex? !!
+//!! specififcity of the click !!
 
-/*
+
 
 function deleteCartItem () {
 //access dom elements,
@@ -140,26 +197,28 @@ function deleteCartItem () {
                 localStorage.setItem('scart', JSON.stringify (cart));
                 console.log('cart after delete', cart);
             }
+            updateCartTotal ()
         })
     }
+    localStorage.setItem('scart', JSON.stringify(cart));
+    return deleteCartItem;
 }
-*/
+
 
 /*
 ** quantity functionality
 */
 
-//problem with the specificity of updated QTY's
-//test
+//!! problem with the specificity of updated QTY's !!
+//!! test !!
 
-/*
+
 function updateQuantityCartItem () {
     //get access to dom elements
     let input = document.getElementsByClassName('itemQuantity');
-    console.log(input);
-    console.log('input.length', input.length);
-    //interate through and add event listener to each
-    //loop through
+    console.log('input.length:', input.length);
+    //interate through html collection result -
+    // and add event listener to each
     for(var i = 0; i < input.length; i++) { 
     input[i].addEventListener('input', updateValue); //working
     //attach value function to the lister
@@ -167,22 +226,109 @@ function updateQuantityCartItem () {
         console.log(event.target.value); //working
             loopResult.quantity = parseInt(event.target.value); 
             console.log('cart:', cart);
+             //run
+            updateCartTotal ()
         }
     }
+    //storage
+    return updateQuantityCartItem;
 }
-*/
 
 /*
+** capture form data and call post request function
+*/
 
-// <div class="cart__price"<p>Total (<span id="totalQuantity"><!-- 2 --></span> articles) : €<span id="totalPrice"><!-- 84.00 --></span></p>
-
-function updateCartTotal () {
-
-
-}
 
 
 function captureFormData () {
-
+    //access dom
+    let firstName = document.getElementById('firstName');
+    let lastName = document.getElementById('lastName');
+    let address = document.getElementById('address');
+    let city = document.getElementById('city');
+    let email  = document.getElementById('email');
+    //button
+    let order = document.getElementById('order');
+    order.addEventListener('click', ($event) => {
+        //prevent page refreshing
+        $event.preventDefault();
+        //regex for email
+        const regexEmail = /\S+@\S+\.\S+/g;
+        let regexEmailResult = regexEmail.test(email.value);
+        console.log(regexEmailResult);
+        //rejex for product strings - check if lenght > 0
+        if (regexEmailResult) {
+            //const searchParams = new URLSearchParams();
+            var contact = { firstName: firstName.value, lastName: lastName.value, address: address.value, city: city.value, email: email.value};
+            //loop through cart, as this is its final selection
+            //extract ids + store in array
+            //console.log(cart);
+            let products = [];
+            for (let i = 0; i < cart.length; i++) {
+               products.push(cart[i]._id);
+            }
+            //console.log ('final cart', finalCart); // working
+            allOrderData = { contact: contact, products: products };
+            //allOrderData.push ( finalCart );
+            console.log ( allOrderData );
+            postRequest ( allOrderData );
+        }
+    })
 }
-*/
+
+
+
+//for post req
+
+//returns the querystring part of a URL, 
+//-including the question mark
+const queryString = window.location.search;
+console.log(queryString);
+//The URLSearchParams interface defines utility methods to work 
+//-with the query string of a URL
+const urlParams = new URLSearchParams(queryString);
+console.log(urlParams);
+const orderId = urlParams.get(queryString);
+
+const postRequest = () => {
+    //send data
+    let options = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(allOrderData)
+    };
+
+    fetch('http://localhost:3000/api/products/order', options)
+
+    .then(data => {
+    console.log(data);
+    
+    if (!data.ok) {
+        throw Error(data.status);
+    }
+    return data.json();
+    }).then(response => {
+    console.log(response);
+
+    console.log(window.location.origin); //
+
+    //window.location.href = response.url + 'confirmation.html?orderId=' + response.orderId;
+    //window.location.href = response.url + 'confirmation.html?=' + response.orderId;
+    window.location.href = window.location.origin + "/front/html/confirmation.html?orderId=" +response.orderId;
+
+    //push order id into url
+        
+    }).catch(e => {
+    console.log(e);
+    })
+}
+
+
+
+
+//order page, retrieve from backend,loop through - 
+//the data and use it to populate 
+//clear local storage
+

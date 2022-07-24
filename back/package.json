@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "api-check": "^7.5.5",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "node-fetch": "^3.2.6",
     "uuid": "^3.3.2"
-    
   }
 }
-
