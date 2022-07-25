@@ -6,7 +6,9 @@
 const uri = 'http://localhost:3000/api/products/';
 const singleProductLink = './productFront.html?=';
 
-
+/*
+** | fetch
+*/
 
 fetch(uri) 
     .then((response) => response.json())
@@ -16,12 +18,20 @@ fetch(uri)
 });
     
 
+/*
+** | create product cards 
+*/
+
 function createProductCardsInfo(array) {
     const length = array.length;
     for (let i = 0; i<length; i++) {
         createProductCardView(array[i]);
     }
 }
+
+/*
+** | cards view
+*/
 
 function createProductCardView(object) {
    

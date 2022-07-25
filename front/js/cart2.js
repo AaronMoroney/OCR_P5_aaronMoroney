@@ -10,20 +10,23 @@ for (let i = 0; i < cart.length; i++) {
     populateCartInfo(cart[i]);
     var loopResult = (cart[i]);
     console.log('loopResult', loopResult);
-    //call functions, in an on load function async??
 }
 
 //need to call functions here instead of above -
 //or else they repeat
+
+/*
+** function call
+*/
 
 deleteCartItem();
 updateQuantityCartItem ();
 updateCartTotal ();
 captureFormData ();
 
-/*
-** use looped cart above to push data into DOM node
-*/
+
+//use looped cart above to push data into DOM node
+
 
 function populateCartInfo(cart) {
     //get access
@@ -140,7 +143,6 @@ function updateCartTotal () {
         //quantity
         let quantityResult = cart[i].quantity;
         //console.log(quantityResult);
-
         quantityResultStorage.push(quantityResult);
         //console.log(quantityResultStorage);
     }
@@ -182,7 +184,7 @@ function deleteCartItem () {
             //provided test function
             let index = cart.findIndex(startCart => startCart._id == loopResult._id && startCart.color == loopResult.color);
             console.log(index);
-            //remove, -1 == false. so != -1 == true
+            //remove, -1 == false. so != -1 == matche index
             if (index !== -1) {
                 //splice the first index result off the cart
                 cart.splice(index);
@@ -245,41 +247,48 @@ function captureFormData () {
         const regexEmail = /\S+@\S+\.\S+/g;
         let regexEmailResult = regexEmail.test(email.value);
         console.log(regexEmailResult);
-        //rejex for product strings - check if lenght > 0
-        if (regexEmailResult) {
-            //const searchParams = new URLSearchParams();
+        //regex for form string - no spec char, excluding space
+        const regexCharectors = /^[a-zA-Z ]/;
+        let regexCharectorsResult = regexCharectors.test(firstName.value, lastName.value, city.value, address.value);
+        console.log(regexCharectorsResult);
+        if (firstName.value.length <= 1 || regexCharectorsResult == false ) {
+            firstNameErrorMsg.innerText = 'first name must be greater than 1 letter and contain no special charectors(except spaces where required)';
+        } else if (lastName.value.length <= 1 || regexCharectorsResult == false ) {
+            lastNameErrorMsg.innerText = 'Last name must be greater than 1 letter and contain no special charectors(except spaces where required).';
+        } else if (city.value.length <= 1 || regexCharectorsResult == false ) {
+            cityErrorMsg.innerText = 'City name must be greater than 1 letter and contain no special charectors(except spaces where required).';
+        } else if (address.value.length <= 1 || regexCharectorsResult == false ) {
+            addressNameErrorMsg.innerText = 'Address must be greater than 1 letter and contain no special charectors(except spaces where required).';
+        } else if (regexEmailResult === false) {
+            emailErrorMsg.innerText = 'Email Address must be in the format something@something.something.';
+        } else { //return true
             var contact = { firstName: firstName.value, lastName: lastName.value, address: address.value, city: city.value, email: email.value};
             //loop through cart, as this is its final selection
             //extract ids + store in array
-            //console.log(cart);
             let products = [];
             for (let i = 0; i < cart.length; i++) {
                products.push(cart[i]._id);
             }
             //console.log ('final cart', finalCart); // working
             allOrderData = { contact: contact, products: products };
-            //allOrderData.push ( finalCart );
+           
             console.log ( allOrderData );
             postRequest ( allOrderData );
+            // else log error messages, first check name, etc
         }
     })
 }
 
-
-
-//const queryString = window.location.search;
-//console.log(queryString);
-//const urlParams = new URLSearchParams(queryString);
-//console.log(urlParams);
-
 let localhost = 'http://localhost:3000/api/products/order';
-//pageLink.href = `${singleProductLink} ${object._id}`;
 
-//for post req
 
+//from OpenClassRooms reccomended reading
+
+/*
+** Post Request
+*/
 
 const postRequest = () => {
-    
     //const orderId = urlParams.get(queryString);
     //send data
     let options = {
@@ -314,10 +323,4 @@ const postRequest = () => {
     })
 }
 
-
-
-
-//order page, retrieve from backend,loop through - 
-//the data and use it to populate 
-//clear local storage
 

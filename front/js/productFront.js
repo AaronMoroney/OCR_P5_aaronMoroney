@@ -11,6 +11,10 @@ console.log(splitForId);
 const newUri = 'http://localhost:3000/api/products/' + splitForId;
 let product;
 
+/*
+** fetch
+*/
+
 //fetch the new URI from get request
 fetch(newUri) 
     .then((response) => response.json())
@@ -23,6 +27,10 @@ fetch(newUri)
 
 // dont need iterate over object to get keys / values -
 // already have in the console
+
+/*
+** create Product View
+*/
 
 
 //populate data, image ,description, price using keys/values
@@ -48,6 +56,10 @@ function createIndividualProductView(data) {
 
     return createIndividualProductView;
 }
+
+/*
+** Populate Dropdown
+*/
 
 /*function for populating the dropdown logic - decomposition into smallest parts
 I have the array I want to access nested within the object 
@@ -105,6 +117,10 @@ button.addEventListener('click', () => {
   addToShoppingCart(interestedProduct); 
 });
 
+/*
+** | add to shopping cart
+*/
+
 function addToShoppingCart (interestedProduct) {
   let cart = JSON.parse(localStorage.getItem('scart')) || [];
   //get a list of selected products from the shopping cart, using product data + interestedProduct
@@ -126,15 +142,7 @@ function addToShoppingCart (interestedProduct) {
   }
 }
 
-/*
-** | Faizal notes, dont code on top of something you don't understand 
-** | don't over engineer the code, keep it as simple as possible 
-** | First, understand the logic functionality of the app in english
-** | then, ap[ply it in pseudo code
-** | then, code
-** | don't waste time, coding at random, debugging -
-** | things that shouldny
-*/
+
 
 
 
