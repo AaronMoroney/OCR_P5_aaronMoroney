@@ -1,3 +1,7 @@
+/*
+** cart
+*/
+
 let cart = JSON.parse(localStorage.getItem('scart')) || [];
 //turn into workable data
 console.log('cart:', cart);
@@ -181,7 +185,7 @@ function deleteCartItem () {
             //remove, -1 == false. so != -1 == true
             if (index !== -1) {
                 //splice the first index result off the cart
-                cart.splice(index, 1);
+                cart.splice(index);
                 //store new array 
                 localStorage.setItem('scart', JSON.stringify (cart));
                 console.log('cart after delete', cart);
@@ -263,17 +267,19 @@ function captureFormData () {
 
 
 
+//const queryString = window.location.search;
+//console.log(queryString);
+//const urlParams = new URLSearchParams(queryString);
+//console.log(urlParams);
+
+let localhost = 'http://localhost:3000/api/products/order';
+//pageLink.href = `${singleProductLink} ${object._id}`;
 
 //for post req
 
 
-
-
 const postRequest = () => {
-    const queryString = window.location.search;
-    console.log(queryString);
-    const urlParams = new URLSearchParams(queryString);
-    console.log(urlParams);
+    
     //const orderId = urlParams.get(queryString);
     //send data
     let options = {
@@ -284,7 +290,7 @@ const postRequest = () => {
     body: JSON.stringify(allOrderData)
     };
 
-    fetch('http://localhost:3000/api/products/order', options)
+    fetch(localhost, options)
 
     .then(data => {
     console.log(data);
@@ -296,9 +302,13 @@ const postRequest = () => {
     }).then(response => {
     console.log(response);
 
-    console.log(window.location.origin); //
-    window.location.href = window.location.origin + '/front/html/confirmation.html?=' + response.orderId;
     //push order id into url
+    sessionStorage.clear();
+    if (sessionStorage.length === 0) {
+        console.log('emptied!');
+    }
+    window.location.href = './confirmation.html?=' + response.orderId;
+    
     }).catch(e => {
     console.log(e);
     })
