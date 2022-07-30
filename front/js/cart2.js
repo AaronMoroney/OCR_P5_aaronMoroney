@@ -8,8 +8,8 @@ console.log('cart:', cart);
 //loop through the data to get access to it
 for (let i = 0; i < cart.length; i++) {
     populateCartInfo(cart[i]);
-    var loopResult = (cart[i]);
-    console.log('loopResult', loopResult);
+    //var loopResult = (cart[i]);
+    //console.log('loopResult', loopResult);
 }
 
 //need to call functions here instead of above -
@@ -110,7 +110,7 @@ function populateCartInfo(cart) {
 }
 
 /*
-** updata cart quantity (specific item)
+** update cart quantity (specific item)
 */
 
 function updateCartTotal () {
@@ -165,12 +165,10 @@ function updateCartTotal () {
 ** delete functionality
 */
 
-// !! not deleting from localstroage correctly !!
-// !! problem with findIndex? !!
-//!! specififcity of the click !!
+
 
 function deleteCartItem () {
-//access dom elements,
+    //access dom elements
     let removeCartItemButtons = document.getElementsByClassName('deleteItem');
     console.log(removeCartItemButtons);
     for ( var i = 0; i <  removeCartItemButtons.length; i ++) {
@@ -179,15 +177,17 @@ function deleteCartItem () {
         deleteItem.addEventListener('click', function (event) {
             deleteItemClicked = event.target;
             //remove parent
+            let color = deleteItemClicked.parentElement.parentElement.parentElement.parentElement.getAttribute('data-color');
+            let productId = deleteItemClicked.parentElement.parentElement.parentElement.parentElement.getAttribute('data-id');
             deleteItemClicked.parentElement.parentElement.parentElement.parentElement.remove();
             //target product // index returns the index first element satisfies 
             //provided test function
-            let index = cart.findIndex(startCart => startCart._id == loopResult._id && startCart.color == loopResult.color);
+            let index = cart.findIndex(startCart => startCart._id == productId && startCart.color == color);
             console.log(index);
             //remove, -1 == false. so != -1 == matche index
             if (index !== -1) {
                 //splice the first index result off the cart
-                cart.splice(index);
+                cart.splice(index, 1);
                 //store new array 
                 localStorage.setItem('scart', JSON.stringify (cart));
                 console.log('cart after delete', cart);
@@ -196,7 +196,6 @@ function deleteCartItem () {
         })
     }
     localStorage.setItem('scart', JSON.stringify(cart));
-    return deleteCartItem;
 }
 
 /*
@@ -206,6 +205,7 @@ function deleteCartItem () {
 //!! problem with the specificity of updated QTY's !!
 //!! test !!
 
+
 function updateQuantityCartItem () {
     //get access to dom elements
     let input = document.getElementsByClassName('itemQuantity');
@@ -213,19 +213,21 @@ function updateQuantityCartItem () {
     //interate through html collection result -
     // and add event listener to each
     for(var i = 0; i < input.length; i++) { 
-    input[i].addEventListener('input', updateValue); //working
+    input[i].addEventListener('input', updateValue)  //working
     //attach value function to the lister
     function updateValue(event) {
         console.log(event.target.value); //working
-            loopResult.quantity = parseInt(event.target.value); 
+            //problerm is here, loop result?
+            quantity = event.target.value; 
             console.log('cart:', cart);
              //run
-            updateCartTotal ()
+            updateCartTotal();
         }
     }
     //storage
     return updateQuantityCartItem;
 }
+
 
 /*
 ** capture form data and call post request function
