@@ -133,20 +133,14 @@ function updateCartTotal () {
         //itemPrice
         let itemPrice = cart[i].price;
         priceResultStorage.push(itemPrice);
-
         //totalItemPrice
         let totalItemPrice = cart[i].quantity * itemPrice;
         totalItemPriceStorage.push(totalItemPrice);
-        //is this result an error??
-        //console.log(totalItemPriceStorage);
-
         //quantity
         let quantityResult = cart[i].quantity;
-        //console.log(quantityResult);
         quantityResultStorage.push(quantityResult);
-        //console.log(quantityResultStorage);
     }
-    //total price
+    //total price, working
     for(var i = 0; i < totalItemPriceStorage.length; i++) {
         let result = initialPriceResult += parseInt(totalItemPriceStorage[i]);
         //console.log(result);
@@ -154,9 +148,8 @@ function updateCartTotal () {
     }
     //quantity
     for(var i = 0; i < quantityResultStorage.length; i++) {
-        let quantityResultLoop = initialQuantity += quantityResultStorage[i];
+        let quantityResultLoop = initialQuantity += parseInt(quantityResultStorage[i]);
         totalQuantity.innerText = quantityResultLoop;
-        //console.log(quantityResultLoop);
     }
     localStorage.setItem('scart', JSON.stringify(cart));  
 }
