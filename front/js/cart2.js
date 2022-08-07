@@ -20,7 +20,7 @@ for (let i = 0; i < cart.length; i++) {
 */
 
 deleteCartItem();
-updateQuantityCartItem ();
+updateQuantityCartItem();
 updateCartTotal ();
 captureFormData ();
 
@@ -176,6 +176,7 @@ function deleteCartItem () {
         //add event listener on click, (delete)
         deleteItem.addEventListener('click', function (event) {
             deleteItemClicked = event.target;
+            //get access to attribute
             //remove parent
             let color = deleteItemClicked.parentElement.parentElement.parentElement.parentElement.getAttribute('data-color');
             let productId = deleteItemClicked.parentElement.parentElement.parentElement.parentElement.getAttribute('data-id');
@@ -211,21 +212,25 @@ function updateQuantityCartItem () {
     let input = document.getElementsByClassName('itemQuantity');
     console.log('input.length:', input.length);
     //interate through html collection result -
-    // and add event listener to each
+    //and add event listener to each
     for(var i = 0; i < input.length; i++) { 
-    input[i].addEventListener('input', updateValue)  //working
-    //attach value function to the lister
-    function updateValue(event) {
-        console.log(event.target.value); //working
-            //problerm is here, loop result?
-            quantity = event.target.value; 
-            console.log('cart:', cart);
-             //run
+        let inputListener = input[i];
+        inputListener.addEventListener('input', updateValue)  //working
+        //attach value function to the lister
+        function updateValue(event) {
+            inputListener.getAttribute('value');
+            //cart loop
+            for (let i = 0; i < cart.length; i++) {
+                itemQuantity.value = event.target.value;
+                cart[i].quantity = itemQuantity[i].value;
+            }
+            console.log(cart);
+            //run
             updateCartTotal();
         }
     }
     //storage
-    return updateQuantityCartItem;
+    //return updateQuantityCartItem;
 }
 
 
