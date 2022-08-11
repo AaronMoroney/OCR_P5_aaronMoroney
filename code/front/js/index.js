@@ -45,7 +45,7 @@ function createProductCardView(object) {
     productName.innerText = object.name;
     productDescription.innerText= object.description;
     
-    img.src= object.imageUrl; h
+    img.src= object.imageUrl; 
     
     pageLink.href = `${SINGLE_PRODUCT_LINK} ${object._id}`;  // need to edit this
     
