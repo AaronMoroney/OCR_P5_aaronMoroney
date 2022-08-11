@@ -3,12 +3,12 @@
 */
 
 //get _id of product from query parameters
-const queryString = window.location.search;
-console.log(queryString);
-let splitForId = queryString.slice(5);
-console.log(splitForId);
+const QUERY_STRING = window.location.search;
+console.log(QUERY_STRING);
+let PRODUCT_ID = QUERY_STRING.slice(5);
+console.log(PRODUCT_ID);
 
-const newUri = 'http://localhost:3000/api/products/' + splitForId;
+const PRODUCT_URI = 'http://localhost:3000/api/products/' + PRODUCT_ID;
 let product;
 
 /*
@@ -16,24 +16,21 @@ let product;
 */
 
 //fetch the new URI from get request
-fetch(newUri) 
+fetch(PRODUCT_URI) 
     .then((response) => response.json())
     .then((data) => {
+        product = data;
         console.log(data)
         createIndividualProductView(data);
         populateDropdown(data);
-        product = data;
+        
 }); //gives back an individual object
-
-// dont need iterate over object to get keys / values -
-// already have in the console
 
 /*
 ** create Product View
 */
 
-
-//populate data, image ,description, price using keys/values
+//populate data, image ,description, price using key/value
 function createIndividualProductView(data) {
     //Dom access to existing ids + classes
     let individualProductName = document.getElementById('title');
@@ -53,22 +50,14 @@ function createIndividualProductView(data) {
 
     //append
     imgParent.appendChild(individualProductImg);
-
-    return createIndividualProductView;
 }
 
 /*
 ** Populate Dropdown
 */
 
-/*function for populating the dropdown logic - decomposition into smallest parts
-I have the array I want to access nested within the object 
-Access the array
-iterate over the array
-Access the dom 
-populate the dom 
-append to dom
-*/
+//Populates the dropdown menu with the color info
+//of each product
 
 const populateDropdown = (data) => {
     //access select node
@@ -87,17 +76,13 @@ const populateDropdown = (data) => {
 }
 
 /*
-** | from openClassRooms 
+** | //error handling for users adding product to cart
 */
 
-/* cart can be made as an array containing three things
-- product id, quanitity, color
-use localStroage to access this array
-when you add a product to the cart, add a new element to the array
-when you add the exact same product, increase the quantity 
-*/
+//triggered by add event listener
+//add event listener calls below function
 
-var button = document.getElementById('addToCart');  //console.log(button); working
+var button = document.getElementById('addToCart'); 
 button.addEventListener('click', () => { 
   var option = document.getElementById('colorsParent').value;
   //if color is unselected alert user
@@ -118,7 +103,7 @@ button.addEventListener('click', () => {
 });
 
 /*
-** | add to shopping cart
+** | add to shopping cart functionality
 */
 
 function addToShoppingCart (interestedProduct) {
@@ -127,22 +112,16 @@ function addToShoppingCart (interestedProduct) {
   var foundProduct = cart.filter((item) => item._id == interestedProduct._id && item.color == interestedProduct.color);
   console.log(foundProduct);
   //if list is empty, immediately push selection to shopping cart. 
-  if (foundProduct.length == 0) { //should use length
+  if (foundProduct.length == 0) { 
     cart.push(interestedProduct);
-    console.log('scart:', cart); //working perfectly
+    console.log('scart:', cart); 
     //store object in local storage
     localStorage.setItem('scart', JSON.stringify(cart));
   } else {
     foundProduct[0].quantity = interestedProduct.quantity + foundProduct[0].quantity;
     console.log(foundProduct[0]);
-    //cart.push(interestedProduct);
     console.log(cart);
     //re-store data in local storage
     localStorage.setItem('scart', JSON.stringify (cart));
   }
 }
-
-
-
-
-

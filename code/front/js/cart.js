@@ -8,12 +8,9 @@ console.log('cart:', cart);
 //loop through the data to get access to it
 for (let i = 0; i < cart.length; i++) {
     populateCartInfo(cart[i]);
-    //var loopResult = (cart[i]);
-    //console.log('loopResult', loopResult);
 }
 
-//need to call functions here instead of above -
-//or else they repeat
+
 
 /*
 ** function call
@@ -158,8 +155,6 @@ function updateCartTotal () {
 ** delete functionality
 */
 
-
-
 function deleteCartItem () {
     //access dom elements
     let removeCartItemButtons = document.getElementsByClassName('deleteItem');
@@ -178,7 +173,7 @@ function deleteCartItem () {
             //provided test function
             let index = cart.findIndex(startCart => startCart._id == productId && startCart.color == color);
             console.log(index);
-            //remove, -1 == false. so != -1 == matche index
+            //remove, -1 == false. so != -1 == match index
             if (index !== -1) {
                 //splice the first index result off the cart
                 cart.splice(index, 1);
@@ -195,10 +190,6 @@ function deleteCartItem () {
 /*
 ** quantity functionality
 */
-
-//!! problem with the specificity of updated QTY's !!
-//!! test !!
-
 
 function updateQuantityCartItem () {
     //get access to dom elements
@@ -222,10 +213,7 @@ function updateQuantityCartItem () {
             updateCartTotal();
         }
     }
-    //storage
-    //return updateQuantityCartItem;
 }
-
 
 /*
 ** capture form data and call post request function
@@ -281,16 +269,12 @@ function captureFormData () {
 
 let localhost = 'http://localhost:3000/api/products/order';
 
-
-//from OpenClassRooms reccomended reading
-
 /*
 ** Post Request
 */
 
 const postRequest = () => {
-    //const orderId = urlParams.get(queryString);
-    //send data
+
     let options = {
     method: 'POST',
     headers: {

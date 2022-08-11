@@ -5,10 +5,6 @@
 //extract the order ID from the url
 //populate the conformation tab with it 
 
-/*
-** populate the order id confirmation
-*/
-
 //get query string
 
 const queryString = window.location.search;
