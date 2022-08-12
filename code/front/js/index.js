@@ -21,8 +21,7 @@ fetch(URI)
 */
 
 function createProductCardsInfo(array) {
-    const length = array.length;
-    for (let i = 0; i<length; i++) {
+    for (let i = 0; i<array.length; i++) {
         createProductCardView(array[i]);
     }
 }
