@@ -113,7 +113,7 @@ function populateCartInfo(cart) {
 function updateCartTotal () {
     //totals
     //only need 1, class returns an array of hmtl so, [0]
-    let cartPrice = document.getElementsByClassName('cart__price')[0];
+    document.getElementsByClassName('cart__price')[0];
     //access + populate dynamically using result  
     //updateCartTotal
     let totalQuantity = document.getElementById('totalQuantity'); //span, inner html
@@ -125,30 +125,40 @@ function updateCartTotal () {
     
     let initialPriceResult = 0;
     let initialQuantity = 0;
-    //need to loop over cart  prices 
-    for(var i = 0; i < cart.length; i++) {
-        //itemPrice
-        let itemPrice = cart[i].price;
-        priceResultStorage.push(itemPrice);
-        //totalItemPrice
-        let totalItemPrice = cart[i].quantity * itemPrice;
-        totalItemPriceStorage.push(totalItemPrice);
+    //if cart length = 0, value of total and articles remains.
+    //even though cart local storagfe value is correctly logged to console.
+    // error handling = if cart.length = 0, don't run logic and let total and quanity = 0;
+    if (cart.length === 0) {
+        totalQuantity.remove();
+        totalPrice.remove();
+        console.log('remove');
+    } else {
+        console.log('run logic')
+        //need to loop over cart  prices 
+        for(var i = 0; i < cart.length; i++) {
+            //itemPrice
+            let itemPrice = cart[i].price;
+            priceResultStorage.push(itemPrice);
+            //totalItemPrice
+            let totalItemPrice = cart[i].quantity * itemPrice;
+            totalItemPriceStorage.push(totalItemPrice);
+            //quantity
+            let quantityResult = cart[i].quantity;
+            quantityResultStorage.push(quantityResult);
+        }
+        //total price, working
+        for(var i = 0; i < totalItemPriceStorage.length; i++) {
+            let result = initialPriceResult += parseInt(totalItemPriceStorage[i]);
+            //console.log(result);
+            totalPrice.innerText = ' ' + result;
+        }
         //quantity
-        let quantityResult = cart[i].quantity;
-        quantityResultStorage.push(quantityResult);
+        for(var i = 0; i < quantityResultStorage.length; i++) {
+            let quantityResultLoop = initialQuantity += parseInt(quantityResultStorage[i]);
+            totalQuantity.innerText = quantityResultLoop;
+        }
+        localStorage.setItem('scart', JSON.stringify(cart));
     }
-    //total price, working
-    for(var i = 0; i < totalItemPriceStorage.length; i++) {
-        let result = initialPriceResult += parseInt(totalItemPriceStorage[i]);
-        //console.log(result);
-        totalPrice.innerText = ' ' + result;
-    }
-    //quantity
-    for(var i = 0; i < quantityResultStorage.length; i++) {
-        let quantityResultLoop = initialQuantity += parseInt(quantityResultStorage[i]);
-        totalQuantity.innerText = quantityResultLoop;
-    }
-    localStorage.setItem('scart', JSON.stringify(cart));  
 }
 
 /*
@@ -165,10 +175,19 @@ function deleteCartItem () {
         deleteItem.addEventListener('click', function (event) {
             deleteItemClicked = event.target;
             //get access to attribute
+            /*
             //remove parent
             let color = deleteItemClicked.parentElement.parentElement.parentElement.parentElement.getAttribute('data-color');
             let productId = deleteItemClicked.parentElement.parentElement.parentElement.parentElement.getAttribute('data-id');
             deleteItemClicked.parentElement.parentElement.parentElement.parentElement.remove();
+            */
+            
+            let color = deleteItemClicked.closest('.cart__item').getAttribute('data-color');
+            let productId = deleteItemClicked.closest('.cart__item').getAttribute('data-id');
+            deleteItemClicked.closest('.cart__item').remove();
+            //console.log(remove);
+            
+            
             //target product // index returns the index first element satisfies 
             //provided test function
             let index = cart.findIndex(startCart => startCart._id == productId && startCart.color == color);
@@ -177,14 +196,18 @@ function deleteCartItem () {
             if (index !== -1) {
                 //splice the first index result off the cart
                 cart.splice(index, 1);
+                console.log('splice');
+                updateCartTotal();
+                console.log('splice2');
+                
                 //store new array 
                 localStorage.setItem('scart', JSON.stringify (cart));
                 console.log('cart after delete', cart);
             }
-            updateCartTotal ()
         })
     }
     localStorage.setItem('scart', JSON.stringify(cart));
+   
 }
 
 /*
@@ -205,8 +228,13 @@ function updateQuantityCartItem () {
             inputListener.getAttribute('value');
             //cart loop
             for (let i = 0; i < cart.length; i++) {
-                itemQuantity.value = event.target.value;
-                cart[i].quantity = itemQuantity[i].value;
+                if (cart.length === 1) {
+                    itemQuantity.value = event.target.value;
+                    cart[i].quantity = itemQuantity.value;
+                } else {
+                    itemQuantity.value = event.target.value;
+                    cart[i].quantity = itemQuantity[i].value;
+                }
             }
             console.log(cart);
             //run
@@ -225,7 +253,7 @@ function captureFormData () {
     let lastName = document.getElementById('lastName');
     let address = document.getElementById('address');
     let city = document.getElementById('city');
-    let email  = document.getElementById('email');
+    let email = document.getElementById('email');
     //button
     let order = document.getElementById('order');
     order.addEventListener('click', ($event) => {
@@ -306,5 +334,3 @@ const postRequest = () => {
     console.log(e);
     })
 }
-
-
