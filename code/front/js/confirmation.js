@@ -7,7 +7,7 @@
 
 //get query string
 
-const queryString = window.location.search;
+const QUERY_STRING = window.location.search;
 console.log(queryString);
 let confirmationNumber = queryString.slice(2);
 console.log(confirmationNumber);

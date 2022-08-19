@@ -1,5 +1,5 @@
 /*
-** index page (all products)
+** | index page (all products)
 */
 
 const URI = 'http://localhost:3000/api/products/';
@@ -33,7 +33,6 @@ function createProductCardsInfo(array) {
 function createProductCardView(object) {
     //DOM creation of product descriptor parent - 'article' 
     let article = document.createElement('article');
-
     //DOM creation of product descriptors + link
     let productName = document.createElement('h3');
     let productDescription = document.createElement('p');
@@ -47,11 +46,9 @@ function createProductCardView(object) {
     img.src= object.imageUrl; 
     
     pageLink.href = `${SINGLE_PRODUCT_LINK} ${object._id}`;  // need to edit this
-    
     //append created product description parent to link parent - 
     items.appendChild(pageLink); //link  to parent
     pageLink.appendChild(article); //product description parent to link
-
     //append product descriptors to article ( in order )
     article.appendChild(img);
     article.appendChild(productName);
