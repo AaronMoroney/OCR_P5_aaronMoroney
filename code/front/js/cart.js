@@ -196,7 +196,7 @@ function deleteCartItem () {
 
 function updateQuantityCartItem () {
     //get access to dom elements
-    var input = document.getElementsByClassName('itemQuantity');
+    let input = document.getElementsByClassName('itemQuantity');
     console.log('input.length:', input.length);
     //interate through html collection result -
     //and add event listener to each
