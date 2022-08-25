@@ -1,5 +1,5 @@
 /*
-** single product page
+** |single product page
 */
 
 //get _id of product from query parameters
@@ -12,7 +12,7 @@ const PRODUCT_URI = 'http://localhost:3000/api/products/' + PRODUCT_ID;
 let product;
 
 /*
-** fetch
+** | fetch
 */
 
 //fetch the new URI from get request
@@ -36,9 +36,7 @@ function createIndividualProductView(data) {
     let individualProductName = document.getElementById('title');
     let individualProductPrice = document.getElementById('price');
     let individualProductDescription = document.getElementById('description');
-    
     let imgParent = document.getElementById('item__img');
-
     // create element 
     let individualProductImg = document.createElement('img');
 
@@ -53,11 +51,8 @@ function createIndividualProductView(data) {
 }
 
 /*
-** Populate Dropdown
+** | Populate Dropdown
 */
-
-//Populates the dropdown menu with the color info
-//of each product
 
 const populateDropdown = (data) => {
     //access select node
@@ -76,7 +71,7 @@ const populateDropdown = (data) => {
 }
 
 /*
-** | //error handling for users adding product to cart
+** | error handling for users adding product to cart
 */
 
 //triggered by add event listener
